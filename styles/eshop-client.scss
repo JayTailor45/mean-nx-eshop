@@ -4,6 +4,10 @@
 @import "./base/mixins";
 @import "./base/configuration";
 
+// Libraries
+@import "primeng/resources/themes/lara-light-blue/theme.css";
+@import "primeng/resources/primeng.css";
+
 // Pages
 @import "./apps/client/pages/home-page";
 @import "./apps/client/pages/product-list";
