@@ -10,8 +10,7 @@ import { BannerComponent } from '@eshop/ui';
 @Component({
   standalone: true,
   imports: [RouterModule, ProductListComponent, HomePageComponent, HeaderComponent, FooterComponent, BannerComponent],
-  // eslint-disable-next-line @angular-eslint/component-selector
-  selector: 'app-root',
+  selector: 'client-root',
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })
