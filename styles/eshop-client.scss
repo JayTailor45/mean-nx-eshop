@@ -1,0 +1,18 @@
+// Base
+@import "./base/colors";
+@import "./base/fonts";
+@import "./base/mixins";
+@import "./base/configuration";
+
+// Pages
+@import "./apps/client/pages/home-page";
+@import "./apps/client/pages/product-list";
+
+// Shared
+@import "./apps/client/shared/header";
+@import "./apps/client/shared/footer";
+
+// Libs
+@import "./libs/ui/banner";
+@import "./libs/ui/slider";
+@import "./libs/ui/stepper";
