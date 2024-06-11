@@ -20,9 +20,17 @@
     .logo {
       padding: 20px;
       width: 100%;
+      color: #fff;
+      font-weight: bold;
 
-      img {
-        max-width: 100%;
+      background-color: #ff3a00;
+      border-bottom: 4px solid #7f1f02;
+      border-bottom-right-radius: 16px;
+      margin-bottom: 16px;
+      cursor: pointer;
+
+      i {
+        margin-right: 8px;
       }
     }
 

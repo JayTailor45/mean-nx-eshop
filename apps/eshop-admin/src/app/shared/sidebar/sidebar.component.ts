@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
-type navItem = {
+type NavItem = {
   id: number;
   label: string;
   route: string;
@@ -17,7 +17,7 @@ type navItem = {
   templateUrl: './sidebar.component.html',
 })
 export class SidebarComponent {
-  navigations = [
+  navigations: NavItem[] = [
     { id: 1, label: 'Dashboard', route: '/', icon: 'pi-home' },
     { id: 2, label: 'Products', route: '/products', icon: 'pi-briefcase' },
     { id: 3, label: 'Categories', route: '/categories', icon: 'pi-list' },
