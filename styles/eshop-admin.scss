@@ -1,4 +1,5 @@
 // Base
+@import "normalize.css/normalize.css";
 @import "./base/colors";
 @import "./base/fonts";
 @import "./base/mixins";
@@ -6,6 +7,7 @@
 // Libraries
 @import "primeng/resources/themes/lara-light-blue/theme.css";
 @import "primeng/resources/primeng.css";
+@import "primeicons/primeicons.css";
 @import 'primeflex/primeflex.scss';
 
 @import "./base/configuration";
@@ -13,5 +15,6 @@
 // Pages
 
 // Shared
+@import "./apps/admin/shell";
 
 // Libs
