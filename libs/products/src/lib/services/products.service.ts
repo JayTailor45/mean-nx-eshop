@@ -18,15 +18,15 @@ export class ProductsService {
     return this.#http.get<Product>(`http://localhost:3000/api/v1/products/${productId}`);
   }
 
-  createProduct(product: Product): Observable<Product> {
-    return this.#http.post('http://localhost:3000/api/v1/products/', product);
+  createProduct(productFormData: FormData): Observable<Product> {
+    return this.#http.post('http://localhost:3000/api/v1/products/', productFormData);
   }
 
   deleteProduct(productId: string): Observable<Product[]> {
     return this.#http.delete<Product[]>(`http://localhost:3000/api/v1/products/${productId}`);
   }
 
-  editProduct(productId: string, category: Product): Observable<Product> {
-    return this.#http.put<Product>(`http://localhost:3000/api/v1/products/${productId}`, category);
+  editProduct(productId: string, productFormData: FormData): Observable<Product> {
+    return this.#http.put<Product>(`http://localhost:3000/api/v1/products/${productId}`, productFormData);
   }
 }
