@@ -18,7 +18,11 @@
     </div>
     <div class="grid">
       <div class="col-12">
-        <p-table [value]="$any(products)" class="p-datatable-gridlines" [loading]="isLoading">
+        <p-table [value]="$any(products)"
+                 class="p-datatable-gridlines"
+                 [loading]="isLoading"
+                 [paginator]="true"
+                 [rows]="10">
           <ng-template pTemplate="header">
             <tr>
               <th pSortableColumn="name">Name

@@ -61,10 +61,34 @@ export class ProductsListComponent implements OnInit {
   }
 
   updateProduct(id: string) {
-
+    this.#router.navigate(['/products/form/' + id]);
   }
 
   deleteProduct(id: string) {
-
+    this.#confirmationService.confirm({
+      message: 'Are you sure you want to delete this product?',
+      header: 'Delete Product',
+      icon: 'pi pi-exclamation-triangle',
+      rejectButtonStyleClass: 'mx-4',
+      accept: () => {
+        this.#productService.deleteProduct(id).subscribe({
+          next: value => {
+            this.#messageService.add({
+              severity: 'success',
+              summary: 'Success',
+              detail: 'Product is deleted'
+            });
+            this.#getProducts();
+          },
+          error: err => {
+            this.#messageService.add({
+              severity: 'error',
+              summary: 'Error',
+              detail: 'Something went wrong'
+            });
+          }
+        });
+      }
+    });
   }
 }

@@ -45,7 +45,7 @@ export class ProductsFormComponent implements OnInit {
   isSubmitting = false;
   isSubmitted = false;
 
-  displayImage!: string | ArrayBuffer | null;
+  displayImage!: string | ArrayBuffer | null | undefined;
 
   categories: Category[] = [];
 
@@ -56,8 +56,11 @@ export class ProductsFormComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.productId = this.#route.snapshot.params['id'];
+
     this.#initForm();
     this.#getCategories();
+    this.#getProductDetail();
   }
 
   #initForm() {
@@ -69,7 +72,7 @@ export class ProductsFormComponent implements OnInit {
       countInStock: ['', Validators.required],
       description: ['', Validators.required],
       richDescription: [''],
-      image: [null],
+      image: [null, Validators.required],
       isFeatured: [false]
     });
   }
@@ -78,8 +81,41 @@ export class ProductsFormComponent implements OnInit {
     this.#categoryService.getCategories().subscribe({
       next: categories => this.categories = categories,
       error: err => {
+        this.#messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'Something went wrong while retrieving categories'
+        });
       }
     });
+  }
+
+  #getProductDetail() {
+    if (!this.productId) return;
+
+    this.#productService.getProduct(this.productId)
+      .subscribe({
+        next: product => {
+          this.form.controls['name'].patchValue(product?.name);
+          this.form.controls['brand'].patchValue(product?.brand);
+          this.form.controls['description'].patchValue(product?.description);
+          this.form.controls['richDescription'].patchValue(product?.richDescription);
+          this.form.controls['countInStock'].patchValue(product?.countInStock);
+          this.form.controls['price'].patchValue(product?.price);
+          this.form.controls['category'].patchValue(product?.category?.id);
+          this.form.controls['isFeatured'].patchValue(product?.isFeatured);
+          this.displayImage = product?.image;
+          this.form.controls['image'].setValidators([]);
+          this.form.controls['image'].updateValueAndValidity();
+        },
+        error: err => {
+          this.#messageService.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: 'Something went wrong while retrieving product detail'
+          });
+        }
+      });
   }
 
   onImageUpload(event: Event) {
