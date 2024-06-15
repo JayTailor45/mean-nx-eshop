@@ -9,11 +9,14 @@ import { UsersListComponent } from './pages/users-list/users-list.component';
 import { UsersFormComponent } from './pages/users-form/users-form.component';
 import { OrdersListComponent } from './pages/orders-list/orders-list.component';
 import { OrdersDetailComponent } from './pages/orders-detail/orders-detail.component';
+import { authGuardGuard, user_routes } from '@eshop/users';
 
 export const appRoutes: Route[] = [
+  ...user_routes,
   {
     path: '',
     component: ShellComponent,
+    canActivate: [authGuardGuard],
     children: [
       {
         path: '',
@@ -67,7 +70,7 @@ export const appRoutes: Route[] = [
       {
         path: 'orders/:id',
         loadComponent: () => OrdersDetailComponent
-      },
+      }
     ]
   }
 ];

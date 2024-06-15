@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { AuthService } from '@eshop/users';
 
 type NavItem = {
   id: number;
@@ -14,14 +15,21 @@ type NavItem = {
   imports: [
     RouterLink
   ],
-  templateUrl: './sidebar.component.html',
+  templateUrl: './sidebar.component.html'
 })
 export class SidebarComponent {
+
+  #authService = inject(AuthService);
+
   navigations: NavItem[] = [
     { id: 1, label: 'Dashboard', route: '/', icon: 'pi-home' },
     { id: 2, label: 'Products', route: '/products', icon: 'pi-briefcase' },
     { id: 3, label: 'Categories', route: '/categories', icon: 'pi-list' },
     { id: 4, label: 'Orders', route: '/orders', icon: 'pi-shopping-cart' },
-    { id: 5, label: 'Users', route: '/users', icon: 'pi-users' },
-  ]
+    { id: 5, label: 'Users', route: '/users', icon: 'pi-users' }
+  ];
+
+  logout() {
+    this.#authService.logoutUser();
+  }
 }
