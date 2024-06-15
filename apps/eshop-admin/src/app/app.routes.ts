@@ -7,6 +7,8 @@ import { ProductsListComponent } from './pages/products-list/products-list.compo
 import { ProductsFormComponent } from './pages/products-form/products-form.component';
 import { UsersListComponent } from './pages/users-list/users-list.component';
 import { UsersFormComponent } from './pages/users-form/users-form.component';
+import { OrdersListComponent } from './pages/orders-list/orders-list.component';
+import { OrdersDetailComponent } from './pages/orders-detail/orders-detail.component';
 
 export const appRoutes: Route[] = [
   {
@@ -57,7 +59,15 @@ export const appRoutes: Route[] = [
       {
         path: 'users/form/:id',
         loadComponent: () => UsersFormComponent
-      }
+      },
+      {
+        path: 'orders',
+        loadComponent: () => OrdersListComponent
+      },
+      {
+        path: 'orders/:id',
+        loadComponent: () => OrdersDetailComponent
+      },
     ]
   }
 ];
