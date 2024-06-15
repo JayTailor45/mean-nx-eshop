@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { User } from '../models/user.model';
 
 @Injectable({
@@ -12,6 +12,11 @@ export class UsersService {
 
   getUsers(): Observable<User[]> {
     return this.#http.get<User[]>('http://localhost:3000/api/v1/users/');
+  }
+
+  getUserCount(): Observable<number> {
+    return this.#http.get<{userCount: number}>('http://localhost:3000/api/v1/users/count')
+      .pipe(map(result => result.userCount));
   }
 
   getUser(userId: string): Observable<User> {

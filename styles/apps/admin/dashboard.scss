@@ -1,0 +1,32 @@
+.d-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: var(--surface-0);
+
+  .icon-label {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .pi {
+    font-size: 4em;
+    margin-right: 16px;
+  }
+
+  .name {
+    font-size: 1.4em;
+  }
+
+  .value {
+    font-size: 3em;
+  }
+
+}
+
+.card-gradient {
+  background: #11998e; /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #11998e, #38ef7d); /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #11998e, #38ef7d); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}

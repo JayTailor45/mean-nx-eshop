@@ -1,1 +1,56 @@
-<p>dashboard works!</p>
+<div class="admin-page">
+  <p-card [header]="'Dashboard'" [subheader]="'Live admin dashboard'">
+    <ng-container *ngIf="(dashboardData$ | async) as data; else loader">
+      <div class="grid">
+        <div class="col-6">
+          <p-card styleClass="card-gradient">
+            <div class="d-item">
+              <div class="icon-label">
+                <i class="pi pi-shopping-cart"></i>
+                <span class="name">Orders</span>
+              </div>
+              <span class="value">{{ data[0] }}</span>
+            </div>
+          </p-card>
+        </div>
+        <div class="col-6">
+          <p-card styleClass="card-gradient">
+            <div class="d-item">
+              <div class="icon-label">
+                <i class="pi pi-briefcase"></i>
+                <span class="name">Products</span>
+              </div>
+              <span class="value">{{ data[1] }}</span>
+            </div>
+          </p-card>
+        </div>
+        <div class="col-6">
+          <p-card styleClass="card-gradient">
+            <div class="d-item">
+              <div class="icon-label">
+                <i class="pi pi-users"></i>
+                <span class="name">Users</span>
+              </div>
+              <span class="value">{{ data[2] }}</span>
+            </div>
+          </p-card>
+        </div>
+        <div class="col-6">
+          <p-card styleClass="card-gradient">
+            <div class="d-item">
+              <div class="icon-label">
+                <i class="pi pi-dollar"></i>
+                <span class="name">Total Sales</span>
+              </div>
+              <span class="value">{{ data[3] | currency }}</span>
+            </div>
+          </p-card>
+        </div>
+      </div>
+    </ng-container>
+  </p-card>
+</div>
+
+<ng-template #loader>
+  <p-progressSpinner></p-progressSpinner>
+</ng-template>

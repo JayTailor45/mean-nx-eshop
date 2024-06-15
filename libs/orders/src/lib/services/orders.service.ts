@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { Order } from '@eshop/orders';
+import { map, Observable } from 'rxjs';
+import { Order } from '../models/order.model';
 import { HttpClient } from '@angular/common/http';
 
 @Injectable({
@@ -12,6 +12,16 @@ export class OrdersService {
 
   getOrders(): Observable<Order[]> {
     return this.#http.get<Order[]>('http://localhost:3000/api/v1/orders/');
+  }
+
+  getOrderCount(): Observable<number> {
+    return this.#http.get<{orderCount: number}>('http://localhost:3000/api/v1/orders/count')
+      .pipe(map(result => result.orderCount));
+  }
+
+  getTotalSales(): Observable<number> {
+    return this.#http.get<{totalSales: number}>('http://localhost:3000/api/v1/orders/total-sales')
+      .pipe(map(result => result.totalSales));
   }
 
   getOrder(orderId: string): Observable<Order> {
