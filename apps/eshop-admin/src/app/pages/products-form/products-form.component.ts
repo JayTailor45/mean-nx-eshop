@@ -12,7 +12,7 @@ import { CategoriesService, Category, ProductsService } from '@eshop/products';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { InputSwitchModule } from 'primeng/inputswitch';
 import { EditorModule } from 'primeng/editor';
-import { timer } from 'rxjs';
+import { first, timer } from 'rxjs';
 
 @Component({
   selector: 'admin-products-form',
@@ -78,22 +78,25 @@ export class ProductsFormComponent implements OnInit {
   }
 
   #getCategories() {
-    this.#categoryService.getCategories().subscribe({
-      next: categories => this.categories = categories,
-      error: err => {
-        this.#messageService.add({
-          severity: 'error',
-          summary: 'Error',
-          detail: 'Something went wrong while retrieving categories'
-        });
-      }
-    });
+    this.#categoryService.getCategories()
+      .pipe(first())
+      .subscribe({
+        next: categories => this.categories = categories,
+        error: err => {
+          this.#messageService.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: 'Something went wrong while retrieving categories'
+          });
+        }
+      });
   }
 
   #getProductDetail() {
     if (!this.productId) return;
 
     this.#productService.getProduct(this.productId)
+      .pipe(first())
       .subscribe({
         next: product => {
           this.form.controls['name'].patchValue(product?.name);
@@ -149,6 +152,7 @@ export class ProductsFormComponent implements OnInit {
       this.#productService.createProduct(formData);
 
     request
+      .pipe(first())
       .subscribe({
         next: result => {
           this.#messageService.add({

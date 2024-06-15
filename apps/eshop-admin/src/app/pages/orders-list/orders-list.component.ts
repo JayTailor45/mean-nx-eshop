@@ -9,7 +9,7 @@ import { ToastModule } from 'primeng/toast';
 import { ToolbarModule } from 'primeng/toolbar';
 import { Order, ORDER_STATUS, OrdersService, OrderStatus } from '@eshop/orders';
 import { DatePipe } from '@angular/common';
-import { finalize } from 'rxjs';
+import { finalize, first } from 'rxjs';
 import { TagModule } from 'primeng/tag';
 
 @Component({
@@ -48,7 +48,10 @@ export class OrdersListComponent implements OnInit {
   #getOrders() {
     this.isLoading = true;
     this.#orderService.getOrders()
-      .pipe(finalize(() => this.isLoading = false))
+      .pipe(
+        first(),
+        finalize(() => this.isLoading = false)
+      )
       .subscribe({
         next: orders => {
           this.orders = orders;
@@ -72,23 +75,25 @@ export class OrdersListComponent implements OnInit {
       icon: 'pi pi-exclamation-triangle',
       rejectButtonStyleClass: 'mx-4',
       accept: () => {
-        this.#orderService.deleteOrder(categoryId).subscribe({
-          next: value => {
-            this.#messageService.add({
-              severity: 'success',
-              summary: 'Success',
-              detail: 'Order is deleted'
-            });
-            this.#getOrders();
-          },
-          error: err => {
-            this.#messageService.add({
-              severity: 'error',
-              summary: 'Error',
-              detail: 'Something went wrong'
-            });
-          }
-        });
+        this.#orderService.deleteOrder(categoryId)
+          .pipe(first())
+          .subscribe({
+            next: value => {
+              this.#messageService.add({
+                severity: 'success',
+                summary: 'Success',
+                detail: 'Order is deleted'
+              });
+              this.#getOrders();
+            },
+            error: err => {
+              this.#messageService.add({
+                severity: 'error',
+                summary: 'Error',
+                detail: 'Something went wrong'
+              });
+            }
+          });
       }
     });
   }

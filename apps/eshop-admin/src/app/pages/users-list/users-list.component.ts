@@ -7,7 +7,7 @@ import { Router, RouterLink } from '@angular/router';
 import { TableModule } from 'primeng/table';
 import { ToastModule } from 'primeng/toast';
 import { ToolbarModule } from 'primeng/toolbar';
-import { finalize } from 'rxjs';
+import { finalize, first } from 'rxjs';
 import { UsersService, User, GetCountryPipe } from '@eshop/users';
 import { TagModule } from 'primeng/tag';
 import { NgIf } from '@angular/common';
@@ -47,7 +47,10 @@ export class UsersListComponent implements OnInit {
 
   #getUsers() {
     this.#userService.getUsers()
-      .pipe(finalize(() => this.isLoading = false))
+      .pipe(
+        first(),
+        finalize(() => this.isLoading = false)
+      )
       .subscribe({
         next: users => {
           this.users = users;
@@ -71,23 +74,25 @@ export class UsersListComponent implements OnInit {
       icon: 'pi pi-exclamation-triangle',
       rejectButtonStyleClass: 'mx-4',
       accept: () => {
-        this.#userService.deleteUser(id).subscribe({
-          next: value => {
-            this.#messageService.add({
-              severity: 'success',
-              summary: 'Success',
-              detail: 'User is deleted'
-            });
-            this.#getUsers();
-          },
-          error: err => {
-            this.#messageService.add({
-              severity: 'error',
-              summary: 'Error',
-              detail: 'Something went wrong'
-            });
-          }
-        });
+        this.#userService.deleteUser(id)
+          .pipe(first())
+          .subscribe({
+            next: value => {
+              this.#messageService.add({
+                severity: 'success',
+                summary: 'Success',
+                detail: 'User is deleted'
+              });
+              this.#getUsers();
+            },
+            error: err => {
+              this.#messageService.add({
+                severity: 'error',
+                summary: 'Error',
+                detail: 'Something went wrong'
+              });
+            }
+          });
       }
     });
   }

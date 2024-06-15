@@ -7,7 +7,7 @@ import { ToastModule } from 'primeng/toast';
 import { ToolbarModule } from 'primeng/toolbar';
 import { MessageService } from 'primeng/api';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import { timer } from 'rxjs';
+import { first, timer } from 'rxjs';
 import { countries as countryList, User, UsersService } from '@eshop/users';
 import { NgIf } from '@angular/common';
 import { InputMaskModule } from 'primeng/inputmask';
@@ -56,7 +56,7 @@ export class UsersFormComponent implements OnInit {
     apartment: [null],
     zip: [null],
     city: [null],
-    country: [null, Validators.required],
+    country: [null, Validators.required]
   });
 
   get userForm() {
@@ -71,22 +71,24 @@ export class UsersFormComponent implements OnInit {
   }
 
   #getCategoryDetails() {
-    if(!this.userId) return;
-    this.#userService.getUser(this.userId).subscribe({
-      next: user => {
-        this.form.patchValue(user);
-        this.form.controls['password'].setValidators([]);
-        this.form.controls['email'].disable();
-        this.form.controls['password'].updateValueAndValidity();
-      },
-      error: err => {
-        this.#messageService.add({
-          severity: 'error',
-          summary: 'Error',
-          detail: 'Something went wrong while retrieving user details'
-        });
-      }
-    });
+    if (!this.userId) return;
+    this.#userService.getUser(this.userId)
+      .pipe(first())
+      .subscribe({
+        next: user => {
+          this.form.patchValue(user);
+          this.form.controls['password'].setValidators([]);
+          this.form.controls['email'].disable();
+          this.form.controls['password'].updateValueAndValidity();
+        },
+        error: err => {
+          this.#messageService.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: 'Something went wrong while retrieving user details'
+          });
+        }
+      });
   }
 
   #getCountries() {
@@ -105,15 +107,15 @@ export class UsersFormComponent implements OnInit {
     const user: User = {};
 
     Object.keys(this.form.value).forEach(key => {
-      // @ts-ignore
       user[key] = this.form.value[key];
-    })
+    });
 
     const request = this.userId ?
       this.#userService.editUser(this.userId, user) :
       this.#userService.createUser(user);
 
     request
+      .pipe(first())
       .subscribe({
         next: result => {
           this.#messageService.add({

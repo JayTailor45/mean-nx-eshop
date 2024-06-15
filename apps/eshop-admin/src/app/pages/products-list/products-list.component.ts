@@ -8,7 +8,7 @@ import { TableModule } from 'primeng/table';
 import { ToastModule } from 'primeng/toast';
 import { ToolbarModule } from 'primeng/toolbar';
 import { Product, ProductsService } from '@eshop/products';
-import { finalize } from 'rxjs';
+import { finalize, first } from 'rxjs';
 import { DatePipe } from '@angular/common';
 
 @Component({
@@ -43,7 +43,10 @@ export class ProductsListComponent implements OnInit {
 
   #getProducts() {
     this.#productService.getProducts()
-      .pipe(finalize(() => this.isLoading = false))
+      .pipe(
+        first(),
+        finalize(() => this.isLoading = false)
+      )
       .subscribe({
         next: products => {
           this.products = products;
@@ -71,23 +74,25 @@ export class ProductsListComponent implements OnInit {
       icon: 'pi pi-exclamation-triangle',
       rejectButtonStyleClass: 'mx-4',
       accept: () => {
-        this.#productService.deleteProduct(id).subscribe({
-          next: value => {
-            this.#messageService.add({
-              severity: 'success',
-              summary: 'Success',
-              detail: 'Product is deleted'
-            });
-            this.#getProducts();
-          },
-          error: err => {
-            this.#messageService.add({
-              severity: 'error',
-              summary: 'Error',
-              detail: 'Something went wrong'
-            });
-          }
-        });
+        this.#productService.deleteProduct(id)
+          .pipe(first())
+          .subscribe({
+            next: value => {
+              this.#messageService.add({
+                severity: 'success',
+                summary: 'Success',
+                detail: 'Product is deleted'
+              });
+              this.#getProducts();
+            },
+            error: err => {
+              this.#messageService.add({
+                severity: 'error',
+                summary: 'Error',
+                detail: 'Something went wrong'
+              });
+            }
+          });
       }
     });
   }

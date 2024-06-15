@@ -6,7 +6,7 @@ import { Button } from 'primeng/button';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { NgIf } from '@angular/common';
 import { AuthService } from '../../services/auth.service';
-import { finalize } from 'rxjs';
+import { finalize, first } from 'rxjs';
 import { MessageService } from 'primeng/api';
 import { LocalstorageService } from '../../services/localstorage.service';
 import { Router } from '@angular/router';
@@ -56,7 +56,10 @@ export class LoginComponent {
     const email = this.loginForm.value.email as string;
     const password = this.loginForm.value.password as string;
     this.#authService.loginUser(email, password)
-      .pipe(finalize(() => this.isSubmitting = false))
+      .pipe(
+        first(),
+        finalize(() => this.isSubmitting = false)
+      )
       .subscribe({
         next: user => {
           this.#messageService.add({
@@ -65,7 +68,7 @@ export class LoginComponent {
             detail: 'Successfully Logged in'
           });
           this.#localStorageService.setToken(user.token!);
-          this.#router.navigate(['/dashboard'])
+          this.#router.navigate(['/dashboard']);
         },
         error: err => {
           this.authError = true;

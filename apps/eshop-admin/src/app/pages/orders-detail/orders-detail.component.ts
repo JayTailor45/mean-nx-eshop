@@ -9,6 +9,7 @@ import { CurrencyPipe, DatePipe } from '@angular/common';
 import { GetCountryPipe } from '@eshop/users';
 import { FormsModule } from '@angular/forms';
 import { MessageService } from 'primeng/api';
+import { first } from 'rxjs';
 
 @Component({
   selector: 'admin-orders-detail',
@@ -48,19 +49,21 @@ export class OrdersDetailComponent implements OnInit {
 
   #getOrderDetail() {
     if (!this.orderId) return;
-    this.#orderService.getOrder(this.orderId).subscribe({
-      next: order => {
-        this.order = order;
-        this.selectedStatus = order.status;
-      },
-      error: err => {
-        this.#messageService.add({
-          severity: 'error',
-          summary: 'Error',
-          detail: 'Something went wrong'
-        });
-      }
-    });
+    this.#orderService.getOrder(this.orderId)
+      .pipe(first())
+      .subscribe({
+        next: order => {
+          this.order = order;
+          this.selectedStatus = order.status;
+        },
+        error: err => {
+          this.#messageService.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: 'Something went wrong'
+          });
+        }
+      });
   }
 
   #getOrderStatus() {
@@ -70,21 +73,23 @@ export class OrdersDetailComponent implements OnInit {
   }
 
   onStatusChange($event: DropdownChangeEvent) {
-    this.#orderService.updateOrderStatus(this.orderId, $event.value).subscribe({
-      next: value => {
-        this.#messageService.add({
-          severity: 'success',
-          summary: 'Success',
-          detail: 'Orders status updated'
-        });
-      },
-      error: err => {
-        this.#messageService.add({
-          severity: 'error',
-          summary: 'Error',
-          detail: 'Something went wrong'
-        });
-      }
-    });
+    this.#orderService.updateOrderStatus(this.orderId, $event.value)
+      .pipe(first())
+      .subscribe({
+        next: value => {
+          this.#messageService.add({
+            severity: 'success',
+            summary: 'Success',
+            detail: 'Orders status updated'
+          });
+        },
+        error: err => {
+          this.#messageService.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: 'Something went wrong'
+          });
+        }
+      });
   }
 }

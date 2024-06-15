@@ -9,7 +9,7 @@ import { ToastModule } from 'primeng/toast';
 import { TableModule } from 'primeng/table';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ConfirmationService, MessageService } from 'primeng/api';
-import { finalize } from 'rxjs';
+import { finalize, first } from 'rxjs';
 
 @Component({
   selector: 'admin-categories-list',
@@ -45,7 +45,10 @@ export class CategoriesListComponent implements OnInit {
   #getCategories() {
     this.isLoading = true;
     this.#categoryService.getCategories()
-      .pipe(finalize(() => this.isLoading = false))
+      .pipe(
+        first(),
+        finalize(() => this.isLoading = false)
+      )
       .subscribe({
         next: categories => {
           this.categories = categories;
@@ -73,23 +76,25 @@ export class CategoriesListComponent implements OnInit {
       icon: 'pi pi-exclamation-triangle',
       rejectButtonStyleClass: 'mx-4',
       accept: () => {
-        this.#categoryService.deleteCategory(categoryId).subscribe({
-          next: value => {
-            this.#messageService.add({
-              severity: 'success',
-              summary: 'Success',
-              detail: 'Category is deleted'
-            });
-            this.#getCategories();
-          },
-          error: err => {
-            this.#messageService.add({
-              severity: 'error',
-              summary: 'Error',
-              detail: 'Something went wrong'
-            });
-          }
-        });
+        this.#categoryService.deleteCategory(categoryId)
+          .pipe(first())
+          .subscribe({
+            next: value => {
+              this.#messageService.add({
+                severity: 'success',
+                summary: 'Success',
+                detail: 'Category is deleted'
+              });
+              this.#getCategories();
+            },
+            error: err => {
+              this.#messageService.add({
+                severity: 'error',
+                summary: 'Error',
+                detail: 'Something went wrong'
+              });
+            }
+          });
       }
     });
   }

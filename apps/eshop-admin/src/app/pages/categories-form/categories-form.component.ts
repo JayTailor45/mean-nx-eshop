@@ -11,7 +11,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { ColorPickerModule } from 'primeng/colorpicker';
 import { CategoriesService, Category } from '@eshop/products';
 import { ToastModule } from 'primeng/toast';
-import { timer } from 'rxjs';
+import { first, timer } from 'rxjs';
 
 @Component({
   selector: 'admin-categories-form',
@@ -63,13 +63,20 @@ export class CategoriesFormComponent implements OnInit {
   }
 
   #getCategoryDetails() {
-    this.#categoryService.getCategory(this.categoryId).subscribe({
-      next: category => {
-        this.form.patchValue(category);
-      },
-      error: err => {
-      }
-    });
+    this.#categoryService.getCategory(this.categoryId)
+      .pipe(first())
+      .subscribe({
+        next: category => {
+          this.form.patchValue(category);
+        },
+        error: err => {
+          this.#messageService.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: 'Something went wrong'
+          });
+        }
+      });
   }
 
   onSubmit() {
@@ -84,7 +91,7 @@ export class CategoriesFormComponent implements OnInit {
     const category: Category = {
       name: this.form.value.name,
       icon: this.form.value.icon,
-      color: this.form.value.color,
+      color: this.form.value.color
     };
 
     const request = this.categoryId ?
@@ -92,6 +99,7 @@ export class CategoriesFormComponent implements OnInit {
       this.#categoryService.createCategory(category);
 
     request
+      .pipe(first())
       .subscribe({
         next: result => {
           this.#messageService.add({
