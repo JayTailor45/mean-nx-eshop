@@ -19,8 +19,18 @@
 // Shared
 @import "./apps/client/shared/header";
 @import "./apps/client/shared/footer";
+@import "./apps/client/shared/nav";
 
 // Libs
 @import "./libs/ui/banner";
 @import "./libs/ui/slider";
 @import "./libs/ui/stepper";
+@import "./libs/products/product-search";
+
+
+.container {
+  width: 80vw;
+  padding: 16px;
+  margin: 0 auto;
+  background-color: var(--surface-100);
+}

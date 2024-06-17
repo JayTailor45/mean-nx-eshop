@@ -1,0 +1,30 @@
+.header {
+  .logo {
+    display: flex;
+    align-items: center;
+    column-gap: 16px;
+    cursor: pointer;
+
+    span {
+      font-weight: bold;
+      font-size: 1.8em;
+      text-decoration: #ffc10d underline;
+      font-style: italic;
+    }
+
+    img {
+      height: 80px;
+    }
+  }
+
+  .search {
+    display: flex;
+    align-items: center;
+  }
+
+  .actions {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+}
