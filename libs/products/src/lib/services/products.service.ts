@@ -14,6 +14,10 @@ export class ProductsService {
     return this.#http.get<Product[]>('http://localhost:3000/api/v1/products/');
   }
 
+  getFeaturedProducts(count: number): Observable<Product[]> {
+    return this.#http.get<Product[]>(`http://localhost:3000/api/v1/products/featured/${count}`);
+  }
+
   getProductCount(): Observable<number> {
     return this.#http.get<{productCount: number}>('http://localhost:3000/api/v1/products/count')
       .pipe(map(result => result.productCount));

@@ -1,0 +1,33 @@
+.product-item {
+  &-wrapper {
+    padding: 16px;
+    background-color: var(--surface-300);
+    border: 1px solid var(--surface-400);
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    min-height: 250px;
+  }
+
+  .image {
+    width: calc(100% - 16px);
+    height: 150px;
+  }
+
+  .name {
+    margin-top: 16px;
+  }
+
+  .price {
+    color: $primary-color;
+    margin: 0;
+  }
+
+  .add-to-cart {
+    background-color: $primary-color;
+    border: 0;
+    border-radius: 16px;
+  }
+}

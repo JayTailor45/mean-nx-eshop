@@ -1,0 +1,16 @@
+<div class="featured-products">
+  <h3>Featured Product</h3>
+  @if (isLoading) {
+    <div class="flex align-items-center justify-content-center">
+      <p-progressSpinner></p-progressSpinner>
+    </div>
+  } @else {
+    <div class="grid">
+      @for (product of products; track product.id) {
+        <div class="col-3">
+          <product-product-item [product]="product" />
+        </div>
+      }
+    </div>
+  }
+</div>
