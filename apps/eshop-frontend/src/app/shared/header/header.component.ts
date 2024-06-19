@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { NavComponent } from '../nav/nav.component';
 import { RouterLink } from '@angular/router';
 import { ProductsSearchComponent } from '@eshop/products';
+import { CartIconComponent } from '@eshop/orders';
 
 @Component({
   selector: 'client-header',
@@ -9,7 +10,8 @@ import { ProductsSearchComponent } from '@eshop/products';
   imports: [
     NavComponent,
     RouterLink,
-    ProductsSearchComponent
+    ProductsSearchComponent,
+    CartIconComponent
   ],
   templateUrl: './header.component.html',
 })
