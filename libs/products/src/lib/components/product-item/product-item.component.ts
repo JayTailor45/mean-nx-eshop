@@ -1,14 +1,15 @@
 import { Component, Input } from '@angular/core';
 import { Button } from 'primeng/button';
 import { Product } from '../../models/product.model';
-import { CurrencyPipe } from '@angular/common';
+import { CurrencyPipe, NgIf } from '@angular/common';
 
 @Component({
   selector: 'product-product-item',
   standalone: true,
   imports: [
     Button,
-    CurrencyPipe
+    CurrencyPipe,
+    NgIf
   ],
   templateUrl: './product-item.component.html'
 })

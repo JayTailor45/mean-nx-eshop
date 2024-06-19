@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { map, Observable } from 'rxjs';
 import { Product } from '../models/product.model';
 
@@ -10,8 +10,12 @@ export class ProductsService {
 
   #http = inject(HttpClient);
 
-  getProducts(): Observable<Product[]> {
-    return this.#http.get<Product[]>('http://localhost:3000/api/v1/products/');
+  getProducts(categoriesId: string[]): Observable<Product[]> {
+    return this.#http.get<Product[]>('http://localhost:3000/api/v1/products/', {
+      params: {
+        categories: categoriesId.join(',')
+      }
+    });
   }
 
   getFeaturedProducts(count: number): Observable<Product[]> {
@@ -19,7 +23,7 @@ export class ProductsService {
   }
 
   getProductCount(): Observable<number> {
-    return this.#http.get<{productCount: number}>('http://localhost:3000/api/v1/products/count')
+    return this.#http.get<{ productCount: number }>('http://localhost:3000/api/v1/products/count')
       .pipe(map(result => result.productCount));
   }
 
