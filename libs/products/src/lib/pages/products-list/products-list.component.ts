@@ -1,14 +1,15 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { ProductItemComponent } from '../../components/product-item/product-item.component';
 import { ProductsService } from '../../services/products.service';
-import { finalize, first } from 'rxjs';
+import { finalize, first, Subject, takeUntil } from 'rxjs';
 import { Product } from '../../models/product.model';
 import { Category } from '../../models/category.model';
 import { CategoriesService } from '../../services/categories.service';
 import { CheckboxChangeEvent, CheckboxModule } from 'primeng/checkbox';
 import { FormsModule } from '@angular/forms';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
-import { NgTemplateOutlet } from '@angular/common';
+import { NgClass, NgTemplateOutlet } from '@angular/common';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'product-products-list',
@@ -18,14 +19,20 @@ import { NgTemplateOutlet } from '@angular/common';
     CheckboxModule,
     FormsModule,
     ProgressSpinnerModule,
-    NgTemplateOutlet
+    NgTemplateOutlet,
+    NgClass
   ],
   templateUrl: './products-list.component.html'
 })
-export class ProductsListComponent implements OnInit {
+export class ProductsListComponent implements OnInit, OnDestroy {
 
+  #route = inject(ActivatedRoute);
   #productService = inject(ProductsService);
   #categoryService = inject(CategoriesService);
+
+  #destroySub = new Subject<void>();
+
+  isCategoriesPage = false;
 
   isProductListLoading = true;
   products: Product[] = [];
@@ -34,8 +41,16 @@ export class ProductsListComponent implements OnInit {
   categories: Category[] = [];
 
   ngOnInit() {
+    this.#route.params
+      .pipe(
+        takeUntil(this.#destroySub)
+      )
+      .subscribe(params => {
+        params['categoryId'] ?
+          this.loadProducts([params['categoryId']]) : this.loadProducts([]);
+        this.isCategoriesPage = Boolean(params['categoryId']);
+      });
     this.loadCategories();
-    this.loadProducts([]);
   }
 
   loadCategories() {
@@ -74,5 +89,10 @@ export class ProductsListComponent implements OnInit {
       .map(category => category.id) as string[];
 
     this.loadProducts(selectedCategories);
+  }
+
+  ngOnDestroy() {
+    this.#destroySub.next();
+    this.#destroySub.complete();
   }
 }

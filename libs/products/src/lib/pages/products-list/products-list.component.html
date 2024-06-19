@@ -1,30 +1,32 @@
 <div class="products-page">
   <div class="grid">
 
-    <div class="col-3">
-      <h4>Categories</h4>
-      @if (isCategoryListLoading) {
-        <ng-container [ngTemplateOutlet]="loader"></ng-container>
-      } @else {
-        @for (category of categories; track category.id) {
-          <div class="field-checkbox">
-            <p-checkbox [binary]="true"
-                        [inputId]="category.id"
-                        [(ngModel)]="category.checked"
-                        (onChange)="applyCategoryFilter($event)" />
-            <label [for]="category.id">{{ category.name }}</label>
-          </div>
+    @if (!isCategoriesPage) {
+      <div class="col-3">
+        <h4>Categories</h4>
+        @if (isCategoryListLoading) {
+          <ng-container [ngTemplateOutlet]="loader"></ng-container>
+        } @else {
+          @for (category of categories; track category.id) {
+            <div class="field-checkbox">
+              <p-checkbox [binary]="true"
+                          [inputId]="category.id"
+                          [(ngModel)]="category.checked"
+                          (onChange)="applyCategoryFilter($event)" />
+              <label [for]="category.id">{{ category.name }}</label>
+            </div>
+          }
         }
-      }
-    </div>
+      </div>
+    }
 
-    <div class="col-9">
+    <div [ngClass]="{'col-9': !isCategoriesPage, 'col-12': isCategoriesPage}">
       @if (isCategoryListLoading) {
         <ng-container [ngTemplateOutlet]="loader"></ng-container>
       } @else {
         <div class="grid">
           @for (product of products; track product.id) {
-            <div class="col-4">
+            <div [ngClass]="{'col-4': !isCategoriesPage, 'col-3': isCategoriesPage}">
               <product-product-item [product]="product" />
             </div>
           }

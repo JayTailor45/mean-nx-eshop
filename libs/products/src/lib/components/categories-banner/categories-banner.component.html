@@ -9,7 +9,7 @@
       @for (category of categories; track category.id) {
         <div class="col-2">
           <div class="category"
-               [routerLink]="['products', 'category', category.id]"
+               [routerLink]="['category', category.id]"
                [ngStyle]="{backgroundColor: category.color}">
             <div class="category-icon">
               <i class="pi pi-{{category.icon}}"></i>

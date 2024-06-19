@@ -11,5 +11,9 @@ export const appRoutes: Route[] = [
   {
     path: 'products',
     loadComponent: () => ProductsListComponent
+  },
+  {
+    path: 'category/:categoryId',
+    loadComponent: () => ProductsListComponent
   }
 ];
