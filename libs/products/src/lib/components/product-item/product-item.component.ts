@@ -2,6 +2,7 @@ import { Component, Input } from '@angular/core';
 import { Button } from 'primeng/button';
 import { Product } from '../../models/product.model';
 import { CurrencyPipe, NgIf } from '@angular/common';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'product-product-item',
@@ -9,7 +10,8 @@ import { CurrencyPipe, NgIf } from '@angular/common';
   imports: [
     Button,
     CurrencyPipe,
-    NgIf
+    NgIf,
+    RouterLink
   ],
   templateUrl: './product-item.component.html'
 })

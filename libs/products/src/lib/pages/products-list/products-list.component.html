@@ -21,7 +21,7 @@
     }
 
     <div [ngClass]="{'col-9': !isCategoriesPage, 'col-12': isCategoriesPage}">
-      @if (isCategoryListLoading) {
+      @if (isProductListLoading) {
         <ng-container [ngTemplateOutlet]="loader"></ng-container>
       } @else {
         <div class="grid">

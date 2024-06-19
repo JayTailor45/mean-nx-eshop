@@ -1,6 +1,6 @@
 import { Route } from '@angular/router';
 import { HomePageComponent } from './pages/home-page/home-page.component';
-import { ProductsListComponent } from '@eshop/products';
+import { ProductDetailsComponent, ProductsListComponent } from '@eshop/products';
 
 export const appRoutes: Route[] = [
   {
@@ -11,6 +11,10 @@ export const appRoutes: Route[] = [
   {
     path: 'products',
     loadComponent: () => ProductsListComponent
+  },
+  {
+    path: 'products/:productId',
+    loadComponent: () => ProductDetailsComponent
   },
   {
     path: 'category/:categoryId',
