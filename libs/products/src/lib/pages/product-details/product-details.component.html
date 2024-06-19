@@ -6,7 +6,21 @@
   } @else {
     <div class="grid" *ngIf="product">
       <div class="col-6">
-        <!-- UI Image Gallery -->
+        <p-carousel
+          [value]="product.images || []"
+          [numVisible]="1">
+          <ng-template let-image pTemplate="item">
+            <div class="border-1 surface-border border-round m-2 p-3">
+              <div class="mb-3">
+                <div class="relative mx-auto">
+                  <img [src]="image"
+                       alt="product image"
+                       class="w-full border-round" />
+                </div>
+              </div>
+            </div>
+          </ng-template>
+        </p-carousel>
       </div>
       <div class="col-6 product">
         <h2 class="product-name"> {{ product.name }} </h2>

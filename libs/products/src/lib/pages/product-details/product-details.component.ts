@@ -9,6 +9,7 @@ import { CurrencyPipe, NgIf } from '@angular/common';
 import { PaginatorModule } from 'primeng/paginator';
 import { Button } from 'primeng/button';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { CarouselModule } from 'primeng/carousel';
 
 @Component({
   selector: 'product-product-details',
@@ -20,7 +21,8 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
     PaginatorModule,
     Button,
     ProgressSpinnerModule,
-    NgIf
+    NgIf,
+    CarouselModule
   ],
   templateUrl: './product-details.component.html'
 })
