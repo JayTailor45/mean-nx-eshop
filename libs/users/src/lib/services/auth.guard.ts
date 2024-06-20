@@ -2,7 +2,7 @@ import { CanActivateFn, Router } from '@angular/router';
 import { inject } from '@angular/core';
 import { LocalstorageService } from './localstorage.service';
 
-export const authGuardGuard: CanActivateFn = (route, state) => {
+export const authGuard: CanActivateFn = (route, state) => {
   const localstorageService = inject(LocalstorageService);
   const router = inject(Router);
 
