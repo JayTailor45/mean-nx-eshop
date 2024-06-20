@@ -14,6 +14,7 @@
   .image {
     width: calc(100% - 16px);
     height: 150px;
+    object-fit: contain;
   }
 
   .name {

@@ -10,6 +10,7 @@ import { PaginatorModule } from 'primeng/paginator';
 import { Button } from 'primeng/button';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { CarouselModule } from 'primeng/carousel';
+import { CartService } from '@eshop/orders';
 
 @Component({
   selector: 'product-product-details',
@@ -30,6 +31,7 @@ export class ProductDetailsComponent implements OnInit {
 
   #route = inject(ActivatedRoute);
   #productService = inject(ProductsService);
+  #cartService = inject(CartService);
 
   product!: Product;
   productId!: string;
@@ -60,6 +62,9 @@ export class ProductDetailsComponent implements OnInit {
   }
 
   addToCart() {
-
+    this.#cartService.setCartItem({
+      productId: this.product.id,
+      quantity: this.quantity
+    });
   }
 }

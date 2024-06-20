@@ -42,7 +42,7 @@ export class ProductsListComponent implements OnInit {
   }
 
   #getProducts() {
-    this.#productService.getProducts()
+    this.#productService.getProducts([])
       .pipe(
         first(),
         finalize(() => this.isLoading = false)
