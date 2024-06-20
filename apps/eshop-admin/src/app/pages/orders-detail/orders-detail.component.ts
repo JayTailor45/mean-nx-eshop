@@ -25,7 +25,6 @@ import { first } from 'rxjs';
     FormsModule
   ],
   templateUrl: './orders-detail.component.html',
-  styles: ``
 })
 export class OrdersDetailComponent implements OnInit {
 

@@ -68,7 +68,7 @@ export class LoginComponent {
             detail: 'Successfully Logged in'
           });
           this.#localStorageService.setToken(user.token!);
-          this.#router.navigate(['/dashboard']);
+          this.#router.navigate(['/']);
         },
         error: err => {
           this.authError = true;
