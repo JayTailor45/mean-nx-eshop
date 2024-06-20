@@ -30,6 +30,10 @@
 @import "./libs/products/categories-banner";
 @import "./libs/products/product-item";
 @import "./libs/products/product-details";
+@import "./libs/orders/cart";
+@import "./libs/orders/orders-summary";
+@import "./libs/orders/checkout";
+@import "./libs/orders/thank-you";
 
 
 .container {
@@ -37,4 +41,9 @@
   padding: 16px;
   margin: 0 auto;
   background-color: var(--surface-100);
+}
+
+button {
+  background-color: $primary-color;
+  border: 0;
 }

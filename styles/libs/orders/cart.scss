@@ -1,0 +1,48 @@
+.cart-page {
+  min-height: 500px;
+
+  .cart {
+    &-shipping {
+      color: var(--green-700)
+    }
+
+    &-item {
+      background-color: var(--surface-0);
+      border: 1px solid var(--surface-300);
+      padding: 16px;
+      border-radius: 16px;
+
+      &-image {
+        img {
+          height: 120px;
+          max-width: 100%;
+        }
+      }
+
+      &-name {
+        font-weight: 600;
+        font-size: 1.2em;
+        margin-bottom: 16px;
+      }
+
+      &-price {
+        font-weight: 600;
+        font-size: 1.2em;
+        margin-bottom: 16px;
+        color: $primary-color;
+      }
+
+      &-quantity {
+        margin: 16px 0;
+      }
+
+      &-subtotal {
+        font-weight: 600;
+
+        &-value {
+          color: var(--green-600);
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,31 @@
+.order-summary {
+  background-color: var(--surface-0);
+  padding: 16px;
+  border: 1px solid var(--surface-200);
+
+  .summary-price {
+    display: flex;
+    margin: 16px 0;
+
+    span {
+      display: block;
+      width: 80%;
+
+      &:last-child {
+        width: 20%;
+        font-weight: 600;
+        color: var(--surface-400);
+      }
+    }
+
+    &-value {
+      color: green !important;
+    }
+  }
+
+  .checkout-button {
+    button {
+      width: 100%;
+    }
+  }
+}

@@ -1,0 +1,20 @@
+<div class="order-summary">
+  <h3>Order Summary</h3>
+  <div class="summary-price">
+    <span>Item Price</span>
+    <span>{{ totalPrice() | currency }}</span>
+  </div>
+  <div class="summary-price">
+    <span>Packing & Shipping</span>
+    <span>{{ 10 | currency }}</span>
+  </div>
+  <div class="to-checkout">
+    <div class="summary-price">
+      <span>Total Price</span>
+      <span class="summary-price-value">{{ totalPrice() + 10 | currency }}</span>
+    </div>
+    <div class="checkout-button" *ngIf="displayAction">
+      <p-button label="Checkout" routerLink="/checkout" />
+    </div>
+  </div>
+</div>

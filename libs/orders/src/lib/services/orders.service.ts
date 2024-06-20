@@ -15,12 +15,12 @@ export class OrdersService {
   }
 
   getOrderCount(): Observable<number> {
-    return this.#http.get<{orderCount: number}>('http://localhost:3000/api/v1/orders/count')
+    return this.#http.get<{ orderCount: number }>('http://localhost:3000/api/v1/orders/count')
       .pipe(map(result => result.orderCount));
   }
 
   getTotalSales(): Observable<number> {
-    return this.#http.get<{totalSales: number}>('http://localhost:3000/api/v1/orders/total-sales')
+    return this.#http.get<{ totalSales: number }>('http://localhost:3000/api/v1/orders/total-sales')
       .pipe(map(result => result.totalSales));
   }
 
@@ -40,4 +40,7 @@ export class OrdersService {
     return this.#http.put<Order>(`http://localhost:3000/api/v1/orders/${orderId}`, { status });
   }
 
+  getProduct(productId: string): Observable<any> {
+    return this.#http.get<any>(`http://localhost:3000/api/v1/products/${productId}`);
+  }
 }

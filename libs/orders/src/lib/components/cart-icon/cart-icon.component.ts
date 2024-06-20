@@ -3,13 +3,15 @@ import { CartService } from '../../services/cart.service';
 import { BadgeModule } from 'primeng/badge';
 import { map, Observable } from 'rxjs';
 import { AsyncPipe } from '@angular/common';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'orders-cart-icon',
   standalone: true,
   imports: [
     BadgeModule,
-    AsyncPipe
+    AsyncPipe,
+    RouterLink
   ],
   templateUrl: './cart-icon.component.html'
 })

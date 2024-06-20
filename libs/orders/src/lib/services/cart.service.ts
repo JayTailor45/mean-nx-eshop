@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Cart, CartItem } from '../models/cart';
-import { BehaviorSubject, Subject } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 
 const CART_KEY = 'cart';
 
@@ -29,6 +29,14 @@ export class CartService {
     localStorage.setItem(CART_KEY, JSON.stringify(initialCart));
   }
 
+  emptyCart() {
+    const initialCart: Cart = {
+      items: []
+    };
+    localStorage.setItem(CART_KEY, JSON.stringify(initialCart));
+    this.#cart$.next(initialCart);
+  }
+
   getCart(): Cart {
     const localStorageData = localStorage.getItem(CART_KEY);
     const cart: Cart = JSON.parse(localStorageData as string);
@@ -40,14 +48,18 @@ export class CartService {
     return checkCartExist !== null && checkCartExist !== undefined;
   }
 
-  setCartItem(cartItem: CartItem): Cart {
+  setCartItem(cartItem: CartItem, updateCartItem?: boolean): Cart {
     const cart = this.getCart();
 
     const cartItemExists = (cart.items || []).find(item => item.productId === cartItem.productId);
     if (cartItemExists) {
       (cart.items || []).map(item => {
         if (item.productId === cartItem.productId) {
-          item.quantity!++;
+          if (updateCartItem) {
+            item.quantity = cartItem.quantity;
+          } else {
+            item.quantity!++;
+          }
         }
         return item;
       });
@@ -58,6 +70,13 @@ export class CartService {
     localStorage.setItem(CART_KEY, JSON.stringify(cart));
     this.#cart$.next(cart);
     return cart;
+  }
+
+  removeCartItem(productId: string) {
+    const cart = this.getCart();
+    cart.items = (cart.items || []).filter(item => item.productId !== productId);
+    localStorage.setItem(CART_KEY, JSON.stringify(cart));
+    this.#cart$.next(cart);
   }
 
 }

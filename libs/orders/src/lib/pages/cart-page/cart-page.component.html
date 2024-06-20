@@ -1,0 +1,60 @@
+<div class="cart-page">
+  <div class="grid">
+    <div class="col-8">
+      <div>
+        <p-button
+          label="Continue Shopping"
+          icon="pi pi-arrow-left"
+          (onClick)="goBack()"
+        />
+      </div>
+      <div>
+        <h4>My Cart : {{ cartItemsDetailed.length || 0 }} Item(s)</h4>
+      </div>
+      <div class="cart-shipping mb-4">
+        Usually shipping order takes less than 5-7 working days
+      </div>
+      @for (item of cartItemsDetailed; track item.product.id) {
+        <div class="cart-item mb-4">
+          <div class="grid p-fluid">
+            <div class="col-2 cart-item-image">
+              <img [src]="item.product.image" [alt]="item.product.name">
+            </div>
+            <div class="col-7">
+              <div class="cart-item-name">
+                {{ item.product.name }}
+              </div>
+              <div class="cart-item-price">
+                {{ item.product.price | currency }}
+              </div>
+              <div class="cart-item-remove">
+                <p-button icon="pi pi-trash" (onClick)="deleteCartItem(item)" />
+              </div>
+            </div>
+            <div class="col-3">
+              <div class="field cart-item-quantity">
+                <p-inputNumber
+                  [mode]="'decimal'"
+                  [showButtons]="true"
+                  [min]="1"
+                  [(ngModel)]="item.quantity"
+                  [inputId]="item.product.id"
+                  (onInput)="updateCartItemQuantity($event, item)"
+                />
+              </div>
+              <div class="cart-item-subtotal">
+                Subtotal:
+                <span class="cart-item-subtotal-value">
+                {{ (+item.product.price! * +item.quantity!) | currency }}
+              </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+    <div class="col-4">
+      <orders-order-summary />
+    </div>
+  </div>
+</div>

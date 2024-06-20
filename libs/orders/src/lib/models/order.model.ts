@@ -12,7 +12,7 @@ export class Order {
   phone?: string;
   status?: string;
   totalPrice?: number;
-  user?: User;
+  user?: User | string;
   dateOrdered?: string;
 
 }
