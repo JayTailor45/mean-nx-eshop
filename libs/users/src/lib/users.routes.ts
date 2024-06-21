@@ -6,4 +6,4 @@ export const userRoutes: Routes = [
     path: 'login',
     loadComponent: () => LoginComponent
   }
-]
+];

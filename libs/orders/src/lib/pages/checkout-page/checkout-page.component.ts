@@ -5,7 +5,7 @@ import { DropdownModule } from 'primeng/dropdown';
 import { InputMaskModule } from 'primeng/inputmask';
 import { InputSwitchModule } from 'primeng/inputswitch';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { countries as countryList, Country, User } from '@eshop/users';
+import { countries as countryList, Country, UsersService } from '@eshop/users';
 import { OrderSummaryComponent } from '../../components/order-summary/order-summary.component';
 import { Order } from '../../models/order.model';
 import { OrderItem } from '../../models/order-item.model';
@@ -34,12 +34,12 @@ export class CheckoutPageComponent implements OnInit {
   #router = inject(Router);
   #fb = inject(FormBuilder);
   #cartService = inject(CartService);
+  #userService = inject(UsersService);
   #orderService = inject(OrdersService);
 
   isSubmitted!: boolean;
   countries: Country[] = [];
   orderItems: OrderItem[] = [];
-  userId!: string;
   isSubmitting = false;
 
   form: FormGroup = this.#fb.group({
@@ -60,6 +60,7 @@ export class CheckoutPageComponent implements OnInit {
   ngOnInit() {
     this.#getCountries();
     this.#getCartItems();
+    this.#setUserData();
   }
 
   #getCountries() {
@@ -87,7 +88,7 @@ export class CheckoutPageComponent implements OnInit {
       country: formValues.country,
       phone: formValues.phone,
       status: '0',
-      user: this.userId, // TODO: Add dynamic user id
+      user: null,
       dateOrdered: Date.now().toString()
     };
     this.isSubmitting = true;
@@ -111,5 +112,25 @@ export class CheckoutPageComponent implements OnInit {
       product: item.productId,
       quantity: item.quantity
     }));
+  }
+
+
+  #setUserData() {
+    this.#userService.currentUser$
+      .pipe(first())
+      .subscribe(user => {
+        if (!user) {
+          return;
+        }
+        this.form.controls['name'].setValue(user.name);
+        this.form.controls['email'].setValue(user.email);
+        this.form.controls['street'].setValue(user.street);
+        this.form.controls['apartment'].setValue(user.apartment);
+        this.form.controls['city'].setValue(user.city);
+        this.form.controls['zip'].setValue(user.zip);
+        this.form.controls['country'].setValue(user.country);
+        this.form.controls['phone'].setValue(user.phone);
+        this.form.controls['user'].setValue(user.id);
+      });
   }
 }
