@@ -12,3 +12,4 @@ export * from './lib/pages/cart-page/cart-page.component';
 export * from './lib/orders.routes';
 export * from './lib/components/order-summary/order-summary.component';
 export * from './lib/pages/checkout-page/checkout-page.component';
+export * from './lib/services/restrict-thank-you.guard';

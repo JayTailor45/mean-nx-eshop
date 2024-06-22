@@ -8,6 +8,8 @@ import { ToastModule } from 'primeng/toast';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { jwtInterceptor } from '@eshop/users';
+import { provideNgxStripe } from 'ngx-stripe';
+import { environment } from '../environments/environment';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -19,6 +21,7 @@ export const appConfig: ApplicationConfig = {
     ToastModule,
     MessageService,
     ConfirmDialogModule,
-    ConfirmationService
+    ConfirmationService,
+    provideNgxStripe(environment.stripePublishableKey)
   ]
 };

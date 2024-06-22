@@ -2,6 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
 import { Order } from '../models/order.model';
 import { HttpClient } from '@angular/common/http';
+import { OrderItem } from '../models/order-item.model';
 
 @Injectable({
   providedIn: 'root'
@@ -42,5 +43,25 @@ export class OrdersService {
 
   getProduct(productId: string): Observable<any> {
     return this.#http.get<any>(`http://localhost:3000/api/v1/products/${productId}`);
+  }
+
+  createCheckoutSession(orderItems: OrderItem[]): Observable<{ id: string }> {
+    return this.#http.post<{ id: string }>('http://localhost:3000/api/v1/orders/create-checkout-session', orderItems);
+  }
+
+  cacheOrderData(order: Order) {
+    localStorage.setItem('orderData', JSON.stringify(order));
+  }
+
+  getCachedOrderData(): Order | null {
+    const data = localStorage.getItem('orderData');
+    if (data) {
+      return JSON.parse(data);
+    }
+    return null;
+  }
+
+  clearCachedOrderData() {
+    localStorage.removeItem('orderData');
   }
 }

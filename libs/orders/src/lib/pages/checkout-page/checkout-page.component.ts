@@ -7,12 +7,13 @@ import { InputSwitchModule } from 'primeng/inputswitch';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { countries as countryList, Country, UsersService } from '@eshop/users';
 import { OrderSummaryComponent } from '../../components/order-summary/order-summary.component';
-import { Order } from '../../models/order.model';
 import { OrderItem } from '../../models/order-item.model';
 import { CartService } from '../../services/cart.service';
 import { OrdersService } from '../../services/orders.service';
-import { finalize, first } from 'rxjs';
+import { first, switchMap } from 'rxjs';
 import { Router } from '@angular/router';
+import { StripeService } from 'ngx-stripe';
+import { Order } from '../../models/order.model';
 
 @Component({
   selector: 'orders-checkout-page',
@@ -36,11 +37,13 @@ export class CheckoutPageComponent implements OnInit {
   #cartService = inject(CartService);
   #userService = inject(UsersService);
   #orderService = inject(OrdersService);
+  #stripeService = inject(StripeService);
 
   isSubmitted!: boolean;
   countries: Country[] = [];
   orderItems: OrderItem[] = [];
   isSubmitting = false;
+  userId!: string;
 
   form: FormGroup = this.#fb.group({
     name: [null, Validators.required],
@@ -76,9 +79,9 @@ export class CheckoutPageComponent implements OnInit {
     if (this.form.invalid) {
       return;
     }
+    this.isSubmitting = true;
 
     const formValues = this.form.value;
-
     const order: Order = {
       orderItems: this.orderItems,
       shippingAddress1: formValues.street,
@@ -88,19 +91,26 @@ export class CheckoutPageComponent implements OnInit {
       country: formValues.country,
       phone: formValues.phone,
       status: '0',
-      user: null,
+      user: this.userId,
       dateOrdered: Date.now().toString()
     };
-    this.isSubmitting = true;
 
-    this.#orderService.createOrder(order)
-      .pipe(first(), finalize(() => this.isSubmitting = false))
+    this.#orderService.cacheOrderData(order);
+
+    this.#orderService.createCheckoutSession(this.orderItems)
+      .pipe(
+        switchMap((seesion) => {
+          return this.#stripeService.redirectToCheckout({ sessionId: seesion.id });
+        })
+      )
       .subscribe({
-        next: response => {
-          this.#router.navigate(['/success']);
-          this.#cartService.emptyCart();
+        next: error => {
+          if (error) {
+            console.error('Error in redirect ', error);
+          }
         },
         error: err => {
+          console.log('Something went wrong');
         }
       });
 
@@ -130,7 +140,7 @@ export class CheckoutPageComponent implements OnInit {
         this.form.controls['zip'].setValue(user.zip);
         this.form.controls['country'].setValue(user.country);
         this.form.controls['phone'].setValue(user.phone);
-        this.form.controls['user'].setValue(user.id);
+        this.userId = user?.id || '';
       });
   }
 }
