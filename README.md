@@ -1,38 +1,53 @@
-# E-Shop
+# E-Shop Frontend
 
-## Start the application
+The repository contains frontend code for eshop / e-commerce application. Backend code can be found [here](https://github.com/JayTailor45/eshop-backend).
 
-Run `npx nx serve eshop-frontend` to start the development server. Happy coding!
+### Features:
 
-## Build for production
+- Admin
+  - View data such as orders, products, total sales etc... on the dashboard
+  - `list` / `add` / `update` / `delete` products
+  - `list` / `add` / `update` / `delete` categories
+  - `list` orders and `update` order status
+- User
+  - Login into application
+  - View products
+  - View categories
+  - Filter products by category
+  - Add products to cart
+  - Update product quantity of cart
+  - Place order
+  - Do online payment using stripe
 
-Run `npx nx build eshop-frontend` to build the application. The build artifacts are stored in the output directory (e.g. `dist/` or `build/`), ready to be deployed.
+### Technology used:
 
-## Running tasks
+- Angular (UI framework)
+- Typescript (Language)
+- Stripe (Payment Gateway)
+- PrimeNG (UI Library)
+- NX Workspace (Mono Repo)
+- JWT (Authentication and Authorization)
+- Quill Editor (Rich Text)
 
-To execute tasks with Nx use the following syntax:
+### Code structure
 
-```
-npx nx <target> <project> <...options>
-```
+- apps
+  - eshop-admin - admin site
+  - eshop-frontend - client site
+- libs
+  - orders - contains all the components and services of orders
+  - products - contains all the components and services of products
+  - users - contains all the components and services of users
+  - ui - contains shared code
+- styles
+  - all the css styles
 
-You can also run multiple targets:
+### Steps to run the project
 
-```
-npx nx run-many -t <target1> <target2>
-```
-
-..or add `-p` to filter specific projects
-
-```
-npx nx run-many -t <target1> <target2> -p <proj1> <proj2>
-```
-
-Targets can be defined in the `package.json` or `projects.json`. Learn more [in the docs](https://nx.dev/features/run-tasks).
-
-## Explore the project graph
-
-Run `npx nx graph` to show the graph of the workspace.
-It will show tasks that you can run with Nx.
-
-- [Learn more about Exploring the Project Graph](https://nx.dev/core-features/explore-graph)
+1. Install **Node**
+2. Clone project
+3. Run `npm install`
+4. Run ```npx nx serve eshop-frontend``` to start client app
+5. Run ```npx nx serve eshop-admin``` to start admin app
+6. Visit http://localhost:4200 to access client app
+7. Visit http://localhost:4300 to access admin app
