@@ -2,6 +2,8 @@
 
 The repository contains frontend code for eshop / e-commerce application. Backend code can be found [here](https://github.com/JayTailor45/eshop-backend).
 
+![client landing page](https://raw.githubusercontent.com/JayTailor45/mean-nx-eshop/main/screenshots/Eshop%20Frontend.jpeg)
+
 ### Features:
 
 - Admin
@@ -51,3 +53,51 @@ The repository contains frontend code for eshop / e-commerce application. Backen
 5. Run ```npx nx serve eshop-admin``` to start admin app
 6. Visit http://localhost:4200 to access client app
 7. Visit http://localhost:4300 to access admin app
+
+### Screenshots
+
+#### Admin Dashboard
+
+![admin dashboard](https://raw.githubusercontent.com/JayTailor45/mean-nx-eshop/main/screenshots/Screenshot%202024-06-22%20at%205.53.00%E2%80%AFPM.png)
+
+#### Admin product listing
+
+![admin products listing](https://raw.githubusercontent.com/JayTailor45/mean-nx-eshop/main/screenshots/Screenshot%202024-06-22%20at%205.53.09%E2%80%AFPM.png)
+
+#### Admin category listing
+
+![admin category listing](https://raw.githubusercontent.com/JayTailor45/mean-nx-eshop/main/screenshots/Screenshot%202024-06-22%20at%205.54.44%E2%80%AFPM.png)
+
+#### Admin order listing
+
+![admin order listing](https://raw.githubusercontent.com/JayTailor45/mean-nx-eshop/main/screenshots/Screenshot%202024-06-22%20at%205.54.58%E2%80%AFPM.png)
+
+#### Admin order details
+
+![admin order details](https://raw.githubusercontent.com/JayTailor45/mean-nx-eshop/main/screenshots/Screenshot%202024-06-22%20at%205.55.06%E2%80%AFPM.png)
+
+---
+
+#### Client landing page
+
+![client landing page](https://raw.githubusercontent.com/JayTailor45/mean-nx-eshop/main/screenshots/Eshop%20Frontend.jpeg)
+
+#### Client filter products by category
+
+![client filter products by category page](https://raw.githubusercontent.com/JayTailor45/mean-nx-eshop/main/screenshots/Screenshot%202024-06-22%20at%206.01.26%E2%80%AFPM.png)
+
+#### Client shopping cart page
+
+![client shopping cart page](https://raw.githubusercontent.com/JayTailor45/mean-nx-eshop/main/screenshots/Screenshot%202024-06-22%20at%206.02.10%E2%80%AFPM.png)
+
+#### Client order Detail page
+
+![client order Detail page](https://raw.githubusercontent.com/JayTailor45/mean-nx-eshop/main/screenshots/Screenshot%202024-06-22%20at%206.02.17%E2%80%AFPM.png)
+
+#### Client order payment page
+
+![client order payment page](https://raw.githubusercontent.com/JayTailor45/mean-nx-eshop/main/screenshots/Screenshot%202024-06-22%20at%206.03.32%E2%80%AFPM.png)
+
+#### Client order success page
+
+![client order success page](https://raw.githubusercontent.com/JayTailor45/mean-nx-eshop/main/screenshots/Screenshot%202024-06-22%20at%206.03.38%E2%80%AFPM.png)
