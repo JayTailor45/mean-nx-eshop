@@ -8,7 +8,7 @@ export const jwtInterceptor: HttpInterceptorFn = (req, next) => {
 
   const token = localStorageService.getToken();
 
-  const isAPIUrl = req.url.startsWith('http://localhost:3000/api/v1');
+  const isAPIUrl = req.url.startsWith('http://localhost:3000/api/');
 
   if (token && isAPIUrl) {
     req = req.clone({

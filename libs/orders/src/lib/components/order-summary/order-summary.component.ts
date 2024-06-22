@@ -42,7 +42,7 @@ export class OrderSummaryComponent implements OnInit {
           this.#orderService.getProduct(item.productId!)
             .pipe(first())
             .subscribe(product => {
-              total += ((product.price || 0) * (item.quantity || 0));
+              total += (+(product.price || 0) * (item.quantity || 0));
               this.totalPrice.set(total);
             });
         });

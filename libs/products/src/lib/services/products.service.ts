@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { map, Observable } from 'rxjs';
 import { Product } from '../models/product.model';
 
@@ -10,8 +10,10 @@ export class ProductsService {
 
   #http = inject(HttpClient);
 
+  readonly apiUrl = 'http://localhost:3000/api/';
+
   getProducts(categoriesId: string[]): Observable<Product[]> {
-    return this.#http.get<Product[]>('http://localhost:3000/api/v1/products/', {
+    return this.#http.get<Product[]>(`${this.apiUrl}v1/products/`, {
       params: {
         categories: categoriesId.join(',')
       }
@@ -19,27 +21,27 @@ export class ProductsService {
   }
 
   getFeaturedProducts(count: number): Observable<Product[]> {
-    return this.#http.get<Product[]>(`http://localhost:3000/api/v1/products/featured/${count}`);
+    return this.#http.get<Product[]>(`${this.apiUrl}v1/products/featured/${count}`);
   }
 
   getProductCount(): Observable<number> {
-    return this.#http.get<{ productCount: number }>('http://localhost:3000/api/v1/products/count')
+    return this.#http.get<{ productCount: number }>(`${this.apiUrl}v1/products/count`)
       .pipe(map(result => result.productCount));
   }
 
   getProduct(productId: string): Observable<Product> {
-    return this.#http.get<Product>(`http://localhost:3000/api/v1/products/${productId}`);
+    return this.#http.get<Product>(`${this.apiUrl}v1/products/${productId}`);
   }
 
   createProduct(productFormData: FormData): Observable<Product> {
-    return this.#http.post('http://localhost:3000/api/v1/products/', productFormData);
+    return this.#http.post(`${this.apiUrl}v1/products/`, productFormData);
   }
 
   deleteProduct(productId: string): Observable<Product[]> {
-    return this.#http.delete<Product[]>(`http://localhost:3000/api/v1/products/${productId}`);
+    return this.#http.delete<Product[]>(`${this.apiUrl}v1/products/${productId}`);
   }
 
   editProduct(productId: string, productFormData: FormData): Observable<Product> {
-    return this.#http.put<Product>(`http://localhost:3000/api/v1/products/${productId}`, productFormData);
+    return this.#http.put<Product>(`${this.apiUrl}v1/products/${productId}`, productFormData);
   }
 }

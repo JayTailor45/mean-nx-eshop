@@ -14,8 +14,10 @@ export class AuthService {
   #localStorageService = inject(LocalstorageService);
   #router = inject(Router);
 
+  readonly apiUrl = 'http://localhost:3000/api/';
+
   loginUser(email: string, password: string): Observable<User> {
-    return this.#http.post<User>('http://localhost:3000/api/v1/users/login', { email, password });
+    return this.#http.post<User>(`${this.apiUrl}v1/users/login`, { email, password });
   }
 
   logoutUser() {

@@ -3,6 +3,8 @@ import { map, Observable } from 'rxjs';
 import { Order } from '../models/order.model';
 import { HttpClient } from '@angular/common/http';
 import { OrderItem } from '../models/order-item.model';
+import { Product } from '@eshop/products';
+import { ORDER_DATA } from '../constant/order.constant';
 
 @Injectable({
   providedIn: 'root'
@@ -11,50 +13,52 @@ export class OrdersService {
 
   #http = inject(HttpClient);
 
+  readonly apiUrl = 'http://localhost:3000/api/';
+
   getOrders(): Observable<Order[]> {
-    return this.#http.get<Order[]>('http://localhost:3000/api/v1/orders/');
+    return this.#http.get<Order[]>(`${this.apiUrl}v1/orders/`);
   }
 
   getOrderCount(): Observable<number> {
-    return this.#http.get<{ orderCount: number }>('http://localhost:3000/api/v1/orders/count')
+    return this.#http.get<{ orderCount: number }>(`${this.apiUrl}v1/orders/count`)
       .pipe(map(result => result.orderCount));
   }
 
   getTotalSales(): Observable<number> {
-    return this.#http.get<{ totalSales: number }>('http://localhost:3000/api/v1/orders/total-sales')
+    return this.#http.get<{ totalSales: number }>(`${this.apiUrl}v1/orders/total-sales`)
       .pipe(map(result => result.totalSales));
   }
 
   getOrder(orderId: string): Observable<Order> {
-    return this.#http.get<Order>(`http://localhost:3000/api/v1/orders/${orderId}`);
+    return this.#http.get<Order>(`${this.apiUrl}v1/orders/${orderId}`);
   }
 
   createOrder(order: Order): Observable<Order> {
-    return this.#http.post('http://localhost:3000/api/v1/orders/', order);
+    return this.#http.post(`${this.apiUrl}v1/orders/`, order);
   }
 
   deleteOrder(orderId: string): Observable<Order[]> {
-    return this.#http.delete<Order[]>(`http://localhost:3000/api/v1/orders/${orderId}`);
+    return this.#http.delete<Order[]>(`${this.apiUrl}v1/orders/${orderId}`);
   }
 
   updateOrderStatus(orderId: string, status: string): Observable<Order> {
-    return this.#http.put<Order>(`http://localhost:3000/api/v1/orders/${orderId}`, { status });
+    return this.#http.put<Order>(`${this.apiUrl}v1/orders/${orderId}`, { status });
   }
 
-  getProduct(productId: string): Observable<any> {
-    return this.#http.get<any>(`http://localhost:3000/api/v1/products/${productId}`);
+  getProduct(productId: string): Observable<Product> {
+    return this.#http.get<Product>(`${this.apiUrl}v1/products/${productId}`);
   }
 
   createCheckoutSession(orderItems: OrderItem[]): Observable<{ id: string }> {
-    return this.#http.post<{ id: string }>('http://localhost:3000/api/v1/orders/create-checkout-session', orderItems);
+    return this.#http.post<{ id: string }>(`${this.apiUrl}v1/orders/create-checkout-session`, orderItems);
   }
 
   cacheOrderData(order: Order) {
-    localStorage.setItem('orderData', JSON.stringify(order));
+    localStorage.setItem(ORDER_DATA, JSON.stringify(order));
   }
 
   getCachedOrderData(): Order | null {
-    const data = localStorage.getItem('orderData');
+    const data = localStorage.getItem(ORDER_DATA);
     if (data) {
       return JSON.parse(data);
     }
@@ -62,6 +66,6 @@ export class OrdersService {
   }
 
   clearCachedOrderData() {
-    localStorage.removeItem('orderData');
+    localStorage.removeItem(ORDER_DATA);
   }
 }

@@ -2,8 +2,8 @@ import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Cart, CartItem } from '../models/cart';
 import { BehaviorSubject } from 'rxjs';
+import { CART_KEY } from '../constant/cart.constant';
 
-const CART_KEY = 'cart';
 
 @Injectable({
   providedIn: 'root'
