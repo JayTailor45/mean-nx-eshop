@@ -7,6 +7,7 @@ import { jwtInterceptor } from '@eshop/users';
 import { MessageService } from 'primeng/api';
 import { provideNgxStripe } from 'ngx-stripe';
 import { environment } from '../environments/environment';
+import { getAppConfigProvider } from '@eshop/app-config';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -15,6 +16,7 @@ export const appConfig: ApplicationConfig = {
     provideAnimations(),
     provideHttpClient(withInterceptors([jwtInterceptor])),
     MessageService,
-    provideNgxStripe(environment.stripePublishableKey)
+    provideNgxStripe(environment.stripePublishableKey),
+    getAppConfigProvider(environment)
   ]
 };

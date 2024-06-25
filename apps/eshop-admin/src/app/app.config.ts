@@ -10,6 +10,7 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { jwtInterceptor } from '@eshop/users';
 import { provideNgxStripe } from 'ngx-stripe';
 import { environment } from '../environments/environment';
+import { getAppConfigProvider } from '@eshop/app-config';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -22,6 +23,7 @@ export const appConfig: ApplicationConfig = {
     MessageService,
     ConfirmDialogModule,
     ConfirmationService,
-    provideNgxStripe(environment.stripePublishableKey)
+    provideNgxStripe(environment.stripePublishableKey),
+    getAppConfigProvider(environment)
   ]
 };
